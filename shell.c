@@ -62,9 +62,8 @@ int main(int ac, char **av, char **env)
 	char *buf = NULL;
 	size_t check = 0, size = 0;
 	struct stat st;
-	int i;
+	int i = 0;
 
-	i = 0;
 	while (1)
 	{
 		write(STDIN_FILENO, "($) ", 4);
