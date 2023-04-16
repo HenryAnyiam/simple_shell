@@ -63,7 +63,7 @@ char *_itoa(int i)
 	}
 	res = malloc(sizeof(char) * len);
 	len--;
-	while(len >= 0)
+	while (len >= 0)
 	{
 		res[rev] = buf[len];
 		len--;
