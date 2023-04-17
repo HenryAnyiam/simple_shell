@@ -35,6 +35,9 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 		return (NULL);
 	for (i = 0; i < a; i++)
 		*((char *)(hold) + i) = *((char *)(ptr) + i);
-	free(ptr);
-	return (hold);
+	ptr = malloc(new_size);
+	for (i = 0; i < a; i++)
+		*((char *)(ptr) + i) = *((char *)(hold) + i);
+	free(hold);
+	return (ptr);
 }

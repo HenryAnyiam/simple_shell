@@ -34,9 +34,8 @@ void _perror(char *file, char *cmd, int i)
   *exec - execute command
   *@arg: null terminated array of atring with commands
   *@env: null terminated array of string with enviroment variables
-  *@i: process count
   */
-void exec(char **arg, char **env, int i)
+void exec(char **arg, char **env)
 {
 	pid_t child;
 	int status;
@@ -55,26 +54,28 @@ void exec(char **arg, char **env, int i)
 
 /**
   *set_args - sets array of ponters containing command line arguments
-  *@argv: array of pointers
   *@buf: command line input
   *@size: length of buffer
   *)
   *Return: struct with array of pointer and size
   */
-arg_s set_args(char **argv, char *buf, int size)
+arg_s set_args(char *buf, int size)
 {
 	arg_s res;
+	char *args = malloc(sizeof(char) * (size + 1));
 	char *buff = malloc(sizeof(char) * size);
 	char *hold = malloc(sizeof(char) * size);
+	char **argv = malloc(sizeof(char *));
 	int i = 0, len, temp, temp1;
 
-	buff = strtok(buf, "\n");
+	args = _strcpy(args, buf);
+	buff = strtok(args, "\n");
 	hold = strtok(buff, " ");
 	while (hold != NULL)
 	{
 		len = _strlen(hold);
-		*(argv + i) = malloc(sizeof(char) * len);
-		*(argv + i) = hold;
+		*(argv + i) = malloc(sizeof(char) * (len + 1));
+		*(argv + i) = _strcpy(*(argv + i), hold);
 		hold = strtok(NULL, " ");
 		temp = sizeof(char *) * (i + 1);
 		temp1 = sizeof(char *) * (i + 2);
@@ -84,6 +85,7 @@ arg_s set_args(char **argv, char *buf, int size)
 	*(argv + i) = NULL;
 	res.arg = argv;
 	res.size = i + 1;
+	free(args);
 	return (res);
 }
 
@@ -116,12 +118,10 @@ int main(int ac, char **av, char **env)
 	arg_s temp_arg;
 	char *buf = NULL;
 	size_t check = 0, size = 0;
-	struct stat st;
 	int i = 0;
 
 	while (1)
 	{
-		arg = malloc(sizeof(char *));
 		write(STDIN_FILENO, "($) ", 4);
 		check = getline(&buf, &size, stdin);
 		if (check == -1)
@@ -132,17 +132,20 @@ int main(int ac, char **av, char **env)
 		}
 		else
 		{
-			temp_arg = set_args(arg, buf, size);
-			arg = _realloc(arg, sizeof(char *), (sizeof(char *) * (temp_arg.size)));
+			temp_arg = set_args(buf, size);
+			arg = malloc((sizeof(char *) * (temp_arg.size)));
 			arg = temp_arg.arg;
-			if (stat(arg[0], &st) == 0)
-				exec(arg, env, i);
+			if (check_cmd((arg + 0)) == 0)
+				exec(arg, env);
 			else
 				_perror(av[0], arg[0], i);
 			++i;
 		}
 	}
-	free_arg(arg);
-	free(arg);
+	if (*(arg + 0) != NULL)
+	{
+		free_arg(arg);
+		free(arg);
+	}
 	return (0);
 }
