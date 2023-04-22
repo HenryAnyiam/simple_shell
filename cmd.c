@@ -1,45 +1,103 @@
 #include "main.h"
 
-int check_cmd(char **arg)
+int (*get_btn(char *cmnd))(cmd_in *cmd)
 {
-	struct stat st;
-	int i = 0, len;
-	char *path, *hold;
-	char *dir = malloc(sizeof(char) * 20);
-	char *file = malloc(sizeof(char) * 30);
+	builtin_c builtin[] = {
+		{"exit", exit_shell},
+		{"env", _env},
+		{"setenv", _setenv},
+		{"unsetenv", _unsetenv},
+		{"cd", _changedir},
+		{NULL, NULL}
+	};
+	int i = 0;
 
-	if (stat(*arg, &st) == 0)
-		return (0);
-	while (*(environ + i) != NULL)
+	for (i = 0; i < 5; ++i)
 	{
-		if ((_strncmp(*(environ + i), "PATH=", 5)) == 0)
+		if (_strcmp(builtin[i].cmd, cmnd) == 0)
+			return (builtin[i].btn);
+	}
+	return (NULL);
+}
+
+char *get_path(cmd_in *cmd)
+{
+	int i = 0, len;
+	char *path;
+
+	while (cmd->env[i] != NULL)
+	{
+		if ((_strncmp(cmd->env[i], "PATH=", 5)) == 0)
 		{
-			len = _strlen(*(environ + i));
+			len = _strlen(cmd->env[i]);
 			path = malloc(sizeof(char) * (len + 1));
-			path = _strcpy(path, *(environ + i));
+			if (path == NULL)
+			{
+				write(STDERR_FILENO, "Allocation Error\n", 17);
+				return (NULL);
+			}
+			path = _strcpy(path, cmd->env[i]);
 			break;
 		}
 		++i;
 	}
-	hold = malloc(sizeof(char) * (len - 5));
-	hold = strtok(path, "=");
-	hold = strtok(NULL, "=");
-	dir = strtok(hold, ":");
+	return (path);
+}
+
+char *get_alias(char *path, char *arg)
+{
+	struct stat st;
+	char *alias, *hold, *dir, *slash = "/";
+
+	hold = _strtok(path, "=");
+	hold = _strtok(NULL, "=");
+	dir = _strtok(hold, ":");
 	while (dir != NULL)
 	{
-		file = _strcat(dir, "/");
-		file = _strcat(file, *arg);
-		if (stat(file, &st) == 0)
+		alias = _strdup(dir);
+		if (alias == NULL)
+			return (NULL);
+		alias = _strcat(alias, slash);
+		alias = _strcat(alias, arg);
+		if (stat(alias, &st) == 0)
 		{
-			*arg = malloc(sizeof(char) * (_strlen(file) + 1));
-			*arg = _strcpy((*arg), file);
-			free(path);
-			free(file);
-			return (0);
+			return(alias);
 		}
-		dir = strtok(NULL, ":");
+		dir = _strtok(NULL, ":");
+		free(alias);
 	}
+	return (NULL);
+}
+
+int handle_ext(cmd_in *cmd)
+{
+	struct stat st;
+	char *path, *alias;
+
+	if (stat(cmd->args[0], &st) == 0)
+	{
+		exec(cmd);
+		return (0);
+	}
+	path = get_path(cmd);
+	alias = get_alias(path, cmd->args[0]);
 	free(path);
-	free(file);
-	return (-1);
+	if (alias == NULL)
+	{
+		_perror(cmd);
+		return (0);
+	}
+	free(cmd->args[0]);
+	cmd->args[0] = alias;
+	exec(cmd);
+	return (0);
+}
+int handle_cmd(cmd_in *cmd)
+{
+	int (*btn_cmds)(cmd_in *cmd);
+
+	btn_cmds = get_btn(cmd->args[0]);
+	if (btn_cmds != NULL)
+		return (btn_cmds(cmd));
+	return (handle_ext(cmd));
 }

@@ -6,12 +6,12 @@
   (*
   *Return: total length
   */
-int _strlen(char *s)
+int _strlen(const char *s)
 {
 	int l;
 
 	l = 0;
-	while (*(s + l) != '\0')
+	while (*(s + l))
 		++l;
 	return (l);
 }
@@ -24,34 +24,32 @@ int _strlen(char *s)
   *)
   *Return: returns concatenated string
   */
-char *_strcat(char *dest, char *src)
+char *_strcat(char *dest, const char *src)
 {
 	int i, j, len;
-	char *cat;
+	char *new;
 
-	len = _strlen(dest);
-	len += _strlen(src);
-	cat = malloc(sizeof(char) * (len + 1));
 	i = 0;
 	while (dest[i] != '\0')
+		i++;
+	len = _strlen(src) + i;
+	new = malloc(sizeof(char) * (len + 1));
+	if (new == NULL)
 	{
-		cat[i] = dest[i];
-		++i;
+		return (NULL);
 	}
+	for (i = 0; dest[i] != '\0'; i++)
+		new[i] = dest[i];
 	j = 0;
-	while (src[j] != '\0')
+	while (src[j])
 	{
-		cat[i] = src[j];
-		++i;
-		++j;
+		new[i] = src[j];
+		i++;
+		j++;
 	}
-	cat[i] = src[j];
-	dest = malloc(sizeof(char) * (len + 1));
-	for (i = 0; cat[i] != '\0'; i++)
-		dest[i] = cat[i];
-	dest[i] = cat[i];
-	free(cat);
-	return (dest);
+	new[i] = '\0';
+	free(dest);
+	return (new);
 }
 /**
   *_itoa - converts an integer to a string
@@ -73,7 +71,11 @@ char *_itoa(int i)
 		i /= 10;
 		len++;
 	}
-	res = malloc(sizeof(char) * len);
+	res = malloc(sizeof(char) * (len + 1));
+	if (res == NULL)
+	{
+		return (NULL);
+	}
 	len--;
 	while (len >= 0)
 	{
