@@ -37,13 +37,17 @@ int set_cmd(cmd_in *cmd, char **arg, int i)
 	if (buf[0] == '\n')
 		return (0);
 	if (i != 0)
+	{
 		free_cmd(cmd->args);
-	cmd->args = set_args(buf, size);
-	free(buf);
+		free(cmd->cmd);
+	}
+	cmd->cmd = buf;
 	cmd->p = i;
 	if (cmd->p == 0)
 		cmd->env = cp_env();
 	cmd->av = arg;
+	cmd->args = NULL;
+	cmd->status = 0;
 	cmd->exit = 0;
 	return (1);
 }
@@ -66,7 +70,7 @@ void start_loop(char **arg, cmd_in *cmd)
 			;
 		else
 		{
-			check = handle_cmd(cmd);
+			check = handle_sep(cmd);
 			if (check == -1)
 			{
 				break;
@@ -74,6 +78,7 @@ void start_loop(char **arg, cmd_in *cmd)
 			++i;
 		}
 	}
+	free(cmd->cmd);
 	free_cmd(cmd->args);
 	free_cmd(cmd->env);
 }

@@ -28,6 +28,8 @@ typedef struct args
   *@av: array of arguments
   *@arg: arguments
   *@env: array of enviroment variables
+  *@cmd: command input
+  *@status: status of executed command
   *@p: current process
   *@exit: exit status
   */
@@ -36,22 +38,51 @@ typedef struct cmd_input
 	char **av;
 	char **args;
 	char **env;
+	char *cmd;
+	int status;
 	int p;
 	unsigned int exit;
 } cmd_in;
 
+/**
+  *struct builtin_s - struct to handle builtin commands
+  *@cmd: command
+  *@btn: pointer to function
+  */
 typedef struct builtin_s
 {
 	char *cmd;
 	int (*btn)(cmd_in *cmd);
 } builtin_c;
 
+/**
+  *struct split_input - linked list to hold current commands
+  *@cmd: current command;
+  *@next: pointer to next node
+  */
+typedef struct split_input
+{
+	char *cmd;
+	struct split_input *next;
+} cmd_list;
+
+/**
+  *struct seperators - linked list to hold seperators
+  *@sep: current seperator
+  *@next: pointer to next node
+  */
+typedef struct seperators
+{
+	char sep;
+	struct seperators *next;
+} sep_list;
+
 void exec(cmd_in *cmd);
 char *_strcat(char *dest, const char *src);
 char *_itoa(int i);
 int _strlen(const char *s);
 void _perror(cmd_in *cmd);
-char **set_args(char *buf, int size);
+char **set_args(char *buf);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 char **__realloc(char **ptr, unsigned int old_size, unsigned int new_size);
 void free_cmd(char **arg);
@@ -90,5 +121,15 @@ char *get_pd(char *cd);
 char *get_dir(cmd_in *cmd, char *var, int len);
 char *mod_str(char *str, char *mod, int i);
 void cd_perror(cmd_in *cmd);
+char *rem_spc(char *str);
+int handle_sep(cmd_in *cmd);
+sep_list *add_sep(sep_list **head, char *str);
+sep_list *sep_node(sep_list **head, char c);
+cmd_list *add_input(cmd_list **head, char *str);
+cmd_list *cmd_node(cmd_list **head, char *str);
+void next_cmd(cmd_in *cmd, cmd_list **in_temp, sep_list **sp_temp);
+void free_in(cmd_list **head);
+void free_sp(sep_list **head);
+void check_args(cmd_in *cmd);
 
 #endif

@@ -19,7 +19,7 @@ void _perror(cmd_in *cmd)
 	error = _strcat(error, "not found\n");
 	len = _strlen(error);
 	write(STDERR_FILENO, error, len);
-	free(process);
+/*	free(process);*/
 	free(error);
 }
 

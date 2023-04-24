@@ -20,16 +20,16 @@ void exec(cmd_in *cmd)
 	}
 	else
 		wait(&status);
+	cmd->status = (status / 256);
 }
 
 /**
   *set_args - sets array of ponters containing command line arguments
   *@buf: command line input
-  *@size: length of buffer
   *)
   *Return: struct with array of pointer and size
   */
-char **set_args(char *buf, int size)
+char **set_args(char *buf)
 {
 	char *args;
 	char *buff, *hold;
@@ -42,6 +42,8 @@ char **set_args(char *buf, int size)
 	hold = _strtok(buff, " ");
 	while (hold != NULL)
 	{
+		if (hold[0] == '\0')
+			hold = _strtok(NULL, " ");
 		argv[i] = _strdup(hold);
 		hold = _strtok(NULL, " ");
 		temp = sizeof(char *) * (i + 1);
