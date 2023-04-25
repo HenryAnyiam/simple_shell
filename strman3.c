@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+  *rem_spc - checks to remove spaces
+  *@str: string to check
+  *)
+  *Return: new string
+  */
 char *rem_spc(char *str)
 {
 	int i, j, len;
@@ -20,6 +26,10 @@ char *rem_spc(char *str)
 	return (new);
 }
 
+/**
+  *check_args - checks that args don't start with space
+  *@cmd: struct holding important data
+  */
 void check_args(cmd_in *cmd)
 {
 	int i;

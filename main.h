@@ -26,8 +26,10 @@ typedef struct args
 /**
   *struct cmd_input - struct to hold input data
   *@av: array of arguments
-  *@arg: arguments
+  *@args: arguments
   *@env: array of enviroment variables
+  *@name: alias
+  *@value: values
   *@cmd: command input
   *@status: status of executed command
   *@p: current process
@@ -38,6 +40,8 @@ typedef struct cmd_input
 	char **av;
 	char **args;
 	char **env;
+	char **name;
+	char **value;
 	char *cmd;
 	int status;
 	int p;
@@ -131,5 +135,17 @@ void next_cmd(cmd_in *cmd, cmd_list **in_temp, sep_list **sp_temp);
 void free_in(cmd_list **head);
 void free_sp(sep_list **head);
 void check_args(cmd_in *cmd);
+int _makealias(cmd_in *cmd);
+int _makealias(cmd_in *cmd);
+int print_all(cmd_in *cmd);
+int print_alias(cmd_in *cmd, char *name);
+int set_alias(cmd_in *cmd, char *str);
+void get_pair(char **name, char **value, char *str);
+void p_alias(cmd_in *cmd, char *name);
+int get_full(cmd_in *cmd, int index);
+int check_alias(cmd_in *cmd);
+char *add_slash(char *str);
+char *rem_slash(char *str);
+void set_new(cmd_in *cmd, char *str);
 
 #endif

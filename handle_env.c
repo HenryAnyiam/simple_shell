@@ -1,5 +1,14 @@
 #include "main.h"
 
+/**
+  *set_var - sets a variable to a new value
+  *@cmd: struct with important data
+  *@var: variable
+  *@val: values
+  *@i: variable index
+  *)
+  *Return: 0
+  */
 int set_var(cmd_in *cmd, char *var, char *val, int i)
 {
 	char *new_env = _strdup(var);
@@ -18,6 +27,13 @@ int set_var(cmd_in *cmd, char *var, char *val, int i)
 	return (0);
 }
 
+/**
+  *make_var - creates a new variable
+  *@cmd: struct with important data
+  *@i: last index
+  *)
+  *Return: 0
+  */
 int make_var(cmd_in *cmd, int i)
 {
 	char *new_env;
@@ -41,13 +57,18 @@ int make_var(cmd_in *cmd, int i)
 	cmd->env = _realloc(cmd->env, temp, temp1);
 	cmd->env[i] = _strdup(new_env);
 	cmd->env[i + 1] = NULL;
-/*	environ[i] = _strcpy(environ[i], new_env);
-	environ[i + 1] = NULL;*/
 	free(new_env);
 	return (0);
 }
 
-int del_var(cmd_in*cmd, int i)
+/**
+  *del_var - deletes a variable
+  *@cmd: struct holding important data
+  *@i: variable index
+  *)
+  *Return: 0
+  */
+int del_var(cmd_in *cmd, int i)
 {
 	char **new_env;
 	int len, skip;

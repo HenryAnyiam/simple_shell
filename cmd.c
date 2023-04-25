@@ -1,6 +1,12 @@
 #include "main.h"
 
-int (*get_btn(char *cmnd))(cmd_in *cmd)
+/**
+  *get_btn - gets function to handle builtins
+  *@cmnd: command
+  *)
+  *Return: pointer to function
+  */
+int (*get_btn(char *cmnd))(cmd_in *)
 {
 	builtin_c builtin[] = {
 		{"exit", exit_shell},
@@ -8,11 +14,12 @@ int (*get_btn(char *cmnd))(cmd_in *cmd)
 		{"setenv", _setenv},
 		{"unsetenv", _unsetenv},
 		{"cd", _changedir},
+		{"alias", _makealias},
 		{NULL, NULL}
 	};
 	int i = 0;
 
-	for (i = 0; i < 5; ++i)
+	for (i = 0; i < 6; ++i)
 	{
 		if (_strcmp(builtin[i].cmd, cmnd) == 0)
 			return (builtin[i].btn);
@@ -20,6 +27,12 @@ int (*get_btn(char *cmnd))(cmd_in *cmd)
 	return (NULL);
 }
 
+/**
+  *get_path - gets path to an external command
+  *@cmd: struct holding important data
+  *)
+  *Return: full path
+  */
 char *get_path(cmd_in *cmd)
 {
 	int i = 0, len;
@@ -44,6 +57,13 @@ char *get_path(cmd_in *cmd)
 	return (path);
 }
 
+/**
+  *get_alias - gets the alias to an external command
+  *@path: the path
+  *@arg: the command
+  *)
+  *Return: alias
+  */
 char *get_alias(char *path, char *arg)
 {
 	struct stat st;
@@ -61,7 +81,7 @@ char *get_alias(char *path, char *arg)
 		alias = _strcat(alias, arg);
 		if (stat(alias, &st) == 0)
 		{
-			return(alias);
+			return (alias);
 		}
 		dir = _strtok(NULL, ":");
 		free(alias);
@@ -69,6 +89,12 @@ char *get_alias(char *path, char *arg)
 	return (NULL);
 }
 
+/**
+  *handle_ext - handle external commands
+  *@cmd: struct holding important data
+  *)
+  *Return: 0
+  */
 int handle_ext(cmd_in *cmd)
 {
 	struct stat st;
@@ -92,10 +118,18 @@ int handle_ext(cmd_in *cmd)
 	exec(cmd);
 	return (0);
 }
+
+/**
+  *handle_cmd - handles commands given
+  *@cmd: struct holding important data
+  *)
+  *Return: 0
+  */
 int handle_cmd(cmd_in *cmd)
 {
 	int (*btn_cmds)(cmd_in *cmd);
 
+	check_alias(cmd);
 	btn_cmds = get_btn(cmd->args[0]);
 	if (btn_cmds != NULL)
 		return (btn_cmds(cmd));

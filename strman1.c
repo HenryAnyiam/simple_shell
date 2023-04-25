@@ -24,7 +24,7 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
-  *_strdup: duplicates a string
+  *_strdup - duplicates a string
   *@src: string to duplicate
   *)
   *Return: pointer to duplicate
@@ -32,7 +32,7 @@ char *_strcpy(char *dest, char *src)
 char *_strdup(const char *src)
 {
 	char *dup;
-	size_t len, i;
+	size_t len, i = 0;
 
 	if (src == NULL)
 		return (NULL);

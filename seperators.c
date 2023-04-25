@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+  *handle_sep - handles command seperators
+  *@cmd: struct holding important data
+  *)
+  *Return: 0 or -1
+  */
 int handle_sep(cmd_in *cmd)
 {
 	cmd_list *head_c, *end_c;
@@ -28,6 +34,13 @@ int handle_sep(cmd_in *cmd)
 	return (check);
 }
 
+/**
+  *add_input - breaks string according to seperators, add to node
+  *@head_c: pointer to first node
+  *@str: command input
+  *)
+  *Return: first node
+  */
 cmd_list *add_input(cmd_list **head_c, char *str)
 {
 	char *hold, *temp;
@@ -51,6 +64,13 @@ cmd_list *add_input(cmd_list **head_c, char *str)
 	return (*head_c);
 }
 
+/**
+  *add_sep - gets seperator and sends to node
+  *@head: pointer to first node
+  *@str: command input
+  *)
+  *Return: first node
+  */
 sep_list *add_sep(sep_list **head, char *str)
 {
 	int i;
@@ -75,6 +95,12 @@ sep_list *add_sep(sep_list **head, char *str)
 	return (*head);
 }
 
+/**
+  *next_cmd - gets next command to exec according to seperators
+  *@cmd: struct holding important data
+  *@in_head: node to current command
+  *@sp_head: node to current seperators
+  */
 void next_cmd(cmd_in *cmd, cmd_list **in_head, sep_list **sp_head)
 {
 	sep_list *s_temp;

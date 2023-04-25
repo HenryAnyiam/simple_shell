@@ -54,6 +54,15 @@ char *get_pd(char *cd)
 	pd[i] = '\0';
 	return (pd);
 }
+
+/**
+  *cd_dir - change directory
+  *@cmd: struct with important data
+  *@new_dir: new directory
+  *@cd: current directory
+  *)
+  *Return: 0
+  */
 int cd_dir(cmd_in *cmd, char *new_dir, char *cd)
 {
 	int i, o, p;

@@ -1,5 +1,12 @@
 #include "main.h"
 
+/**
+  *cmd_node - adds node to end of list
+  *@head: pointer to first node
+  *@str: command string to add
+  *)
+  *Return: first node pointer
+  */
 cmd_list *cmd_node(cmd_list **head, char *str)
 {
 	cmd_list *new, *temp;
@@ -24,6 +31,10 @@ cmd_list *cmd_node(cmd_list **head, char *str)
 	return (*head);
 }
 
+/**
+  *free_in - free node
+  *@head: pointer to first node
+  */
 void free_in(cmd_list **head)
 {
 	cmd_list *temp;
@@ -37,6 +48,13 @@ void free_in(cmd_list **head)
 	}
 }
 
+/**
+  *sep_node - add node to end of seperators list
+  *@head: pointer to first node
+  *@c: seperator
+  *)
+  *Return: first node
+  */
 sep_list *sep_node(sep_list **head, char c)
 {
 	sep_list *new, *end;
@@ -61,6 +79,10 @@ sep_list *sep_node(sep_list **head, char c)
 	return (*head);
 }
 
+/**
+  *free_sp - free linked list
+  *@head: pointer to first node
+  */
 void free_sp(sep_list **head)
 {
 	sep_list *temp;

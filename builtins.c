@@ -1,8 +1,15 @@
 #include "main.h"
 
+/**
+  *exit_shell - exits the shell
+  *@cmd: struct holding important data
+  *)
+  *Return: -1
+  */
 int exit_shell(cmd_in *cmd)
 {
 	unsigned int i;
+
 	if (cmd->args[1] != NULL)
 	{
 		if ((_isdigit(cmd->args[1])) == 0)
@@ -24,6 +31,12 @@ int exit_shell(cmd_in *cmd)
 	return (-1);
 }
 
+/**
+  *_env - handles the builtin env
+  *@cmd: struct holding important data
+  *)
+  *Return: 0
+  */
 int _env(cmd_in *cmd)
 {
 	int i;
@@ -38,11 +51,17 @@ int _env(cmd_in *cmd)
 	return (0);
 }
 
+/**
+  *_setenv - handles the builtin setenv
+  *@cmd: struct holding important data
+  *)
+  *Return: 0
+  */
 int _setenv(cmd_in *cmd)
 {
 	int i, len_var;
 
-	if ((cmd->args[1] == NULL) ||(cmd->args[2] == NULL))
+	if ((cmd->args[1] == NULL) || (cmd->args[2] == NULL))
 	{
 		_penv(cmd);
 		return (0);
@@ -58,6 +77,12 @@ int _setenv(cmd_in *cmd)
 	return (make_var(cmd, i));
 }
 
+/**
+  *_unsetenv - removes an enviroment variable
+  *@cmd: struct holding important data
+  *)
+  *Return: 0
+  */
 int _unsetenv(cmd_in *cmd)
 {
 	int i, len_var;
@@ -79,9 +104,15 @@ int _unsetenv(cmd_in *cmd)
 	return (0);
 }
 
+/**
+  *_changedir - change current directory
+  *@cmd: struct holding important data
+  *)
+  *Return: 0
+  */
 int _changedir(cmd_in *cmd)
 {
-	char *home = NULL, *fwd = NULL, *cd = NULL; 
+	char *home = NULL, *fwd = NULL, *cd = NULL;
 	char *pd = NULL, *dir = NULL;
 
 	home = get_dir(cmd, "HOME", 4);

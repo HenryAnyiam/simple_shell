@@ -2,8 +2,7 @@
 
 /**
   *exec - execute command
-  *@arg: null terminated array of atring with commands
-  *@env: null terminated array of string with enviroment variables
+  *@cmd: struct holding important data
   */
 void exec(cmd_in *cmd)
 {
@@ -27,7 +26,7 @@ void exec(cmd_in *cmd)
   *set_args - sets array of ponters containing command line arguments
   *@buf: command line input
   *)
-  *Return: struct with array of pointer and size
+  *Return: array of strings
   */
 char **set_args(char *buf)
 {
@@ -57,8 +56,8 @@ char **set_args(char *buf)
 }
 
 /**
-  *free_arg - frees an array of pointers
-  *@arg: array of pointers
+  *free_cmd - frees an array of pointers
+  *@args: array of pointers
   */
 void free_cmd(char **args)
 {

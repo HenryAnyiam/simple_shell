@@ -1,5 +1,10 @@
 #include "main.h"
 
+/**
+  *cp_env - copies the enviroment variable to an array
+  *)
+  *Return: array
+  */
 char **cp_env(void)
 {
 	char **env;
@@ -23,13 +28,21 @@ char **cp_env(void)
 	return (env);
 }
 
+/**
+  *set_cmd - sets the struct data
+  *@cmd: struct to set
+  *@arg: array of command line arguments
+  *@i: current process count
+  *)
+  *Return: 0 or -1
+  */
 int set_cmd(cmd_in *cmd, char **arg, int i)
 {
 	size_t check, size = 0;
 	char *buf = NULL;
 
 	check = _getline(&buf, &size, stdin);
-	if (check == -1)
+	if ((check == -1) && (i != 0))
 	{
 		free(buf);
 		return (-1);
@@ -44,14 +57,23 @@ int set_cmd(cmd_in *cmd, char **arg, int i)
 	cmd->cmd = buf;
 	cmd->p = i;
 	if (cmd->p == 0)
+	{
 		cmd->env = cp_env();
-	cmd->av = arg;
-	cmd->args = NULL;
-	cmd->status = 0;
-	cmd->exit = 0;
+		cmd->av = arg;
+		cmd->args = NULL;
+		cmd->status = 0;
+		cmd->exit = 0;
+		cmd->name = NULL;
+		cmd->value = NULL;
+	}
 	return (1);
 }
 
+/**
+  *start_loop - starts shell
+  *@arg: command line arguments
+  *@cmd: struct
+  */
 void start_loop(char **arg, cmd_in *cmd)
 {
 	int check;
@@ -79,6 +101,11 @@ void start_loop(char **arg, cmd_in *cmd)
 		}
 	}
 	free(cmd->cmd);
+	if (cmd->name != NULL)
+	{
+		free_cmd(cmd->name);
+		free_cmd(cmd->value);
+	}
 	free_cmd(cmd->args);
 	free_cmd(cmd->env);
 }

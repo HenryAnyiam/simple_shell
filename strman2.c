@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+  *_isdigit - checks if a string is of only numbers
+  *@s: string to check
+  *)
+  *Return: 0 or -1
+  */
 int _isdigit(char *s)
 {
 	int i = 0;
@@ -44,7 +50,7 @@ int _isalpha(int c)
 }
 
 /**
-  *_isdigit - checks for digit
+  *_digit - checks for digit
   *@c: digit to be checked
   (*
   *Return: 1 if digit, 0 otherwise
@@ -65,6 +71,12 @@ int _digit(int c)
 	return (val);
 }
 
+/**
+  *valid_var - checks if a string meets variable requirement
+  *@s: string to check
+  *)
+  *Return: 0 or -1
+  */
 int valid_var(char *s)
 {
 	int i;
@@ -79,6 +91,14 @@ int valid_var(char *s)
 	return (0);
 }
 
+/**
+  *mod_str - concatenates two string
+  *@str: string to modify
+  *@mod: string to modify with
+  *@i: index to modify from
+  *)
+  *Return: modified string
+  */
 char *mod_str(char *str, char *mod, int i)
 {
 	int len, j;

@@ -1,5 +1,13 @@
 #include "main.h"
 
+/**
+  *_getline - reads a line from stream
+  *@buffer: pointer to buffer to hold line
+  *@size: pointer to size of buffer
+  *@stream: stream to read from
+  *)
+  *Return: size
+  */
 size_t _getline(char **buffer, size_t *size, FILE *stream)
 {
 	char curr;
