@@ -69,13 +69,15 @@ char *rem_slash(char *str)
 {
 	int i, j, len;
 	char *s;
+	char c;
 
 	len = _strlen(str);
 	s = malloc(sizeof(char) * (len + 1));
 
 	for (i = 0, j = 0; str[i] != '\0'; i++)
 	{
-		if ((str[i] != '\'') && (str[i] != '"'))
+		c = str[i];
+		if ((c != '\'') && (c != '"') && (c != '[') && (c != ']'))
 		{
 			s[j] = str[i];
 			j++;

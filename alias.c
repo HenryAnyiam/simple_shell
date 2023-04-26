@@ -108,7 +108,7 @@ int print_all(cmd_in *cmd)
 int print_alias(cmd_in *cmd, char *name)
 {
 	int i = 0, len;
-	char *names;
+	char *names, new = rem_slash(name);
 
 	if (cmd->name == NULL)
 	{
@@ -117,7 +117,7 @@ int print_alias(cmd_in *cmd, char *name)
 	}
 	while (cmd->name[i] != NULL)
 	{
-		if (_strcmp(cmd->name[i], name) == 0)
+		if (_strcmp(cmd->name[i], new) == 0)
 		{
 			names = _strdup(cmd->name[i]);
 			names = _strcat(names, "=");

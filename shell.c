@@ -6,6 +6,7 @@
   */
 void exec(cmd_in *cmd)
 {
+	char *er;
 	pid_t child;
 	int status, check;
 
@@ -16,6 +17,9 @@ void exec(cmd_in *cmd)
 	else if (child == 0)
 	{
 		check = execve(cmd->cmd, cmd->args, cmd->env);
+		er = _itoa(check);
+		write(STDOUT_FILENO, er, _strlen(er));
+		fflush(stdout);
 		if (check == -1)
 			perror(cmd->av[0]);
 	}

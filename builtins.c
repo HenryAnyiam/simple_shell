@@ -135,7 +135,7 @@ int _changedir(cmd_in *cmd)
 	else if (_strncmp(cmd->args[1], ".", 1) == 0)
 		dir = mod_str(cmd->args[1], cd, 1);
 	else
-		dir = _strdup(cmd->args[1]);
+		dir = rem_slash(cmd->args[1]);
 	free(pd);
 	free(fwd);
 	free(home);
