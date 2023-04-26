@@ -16,8 +16,8 @@ void exec(cmd_in *cmd)
 	else if (child == 0)
 	{
 		check = execve(cmd->cmd, cmd->args, cmd->env);
-		printf("%d\n", check);
-		perror(cmd->av[0]);
+		if (check == -1)
+			perror(cmd->av[0]);
 	}
 	else
 		wait(&status);
