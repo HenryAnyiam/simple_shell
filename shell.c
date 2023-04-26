@@ -90,6 +90,7 @@ int main(int __attribute__((unused)) ac, char **av)
 	int fd = STDIN_FILENO;
 	char *arg = NULL;
 
+	signal(SIGINT, handle_sigint);
 	if (av[1] != NULL)
 		fd = open(av[1], O_RDONLY);
 	if (fd < 0)
@@ -104,4 +105,13 @@ int main(int __attribute__((unused)) ac, char **av)
 	}
 	start_loop(av, &cmd, fd);
 	return (cmd.exit);
+}
+
+/**
+  *handle_sigint - handles ctrl c signal
+  *@sig: int
+  */
+void handle_sigint(int __attribute__ ((unused)) sig)
+{
+	write(STDOUT_FILENO, "\n($) ", 5);
 }

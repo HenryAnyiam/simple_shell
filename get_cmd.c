@@ -102,6 +102,7 @@ void start_loop(char **arg, cmd_in *cmd, int fd)
 			;
 		else
 		{
+			++i;
 			mark = remove_comments(cmd);
 			if (mark < 0)
 				continue;
@@ -110,7 +111,6 @@ void start_loop(char **arg, cmd_in *cmd, int fd)
 			{
 				break;
 			}
-			++i;
 		}
 	}
 	free_all(cmd);
