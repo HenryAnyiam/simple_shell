@@ -117,7 +117,7 @@ int _unsetenv(cmd_in *cmd)
 int _changedir(cmd_in *cmd)
 {
 	char *home = NULL, *fwd = NULL, *cd = NULL;
-	char *pd = NULL, *dir = NULL;
+	char *pd = NULL, *dir = NULL, *out;
 
 	home = get_dir(cmd, "HOME", 4);
 	fwd = get_dir(cmd, "OLDPWD", 6);
@@ -131,6 +131,10 @@ int _changedir(cmd_in *cmd)
 			dir = _strdup(cd);
 		else
 			dir = _strdup(fwd);
+		out = _strdup(dir);
+		out = _strcat(out, "\n");
+		write(STDOUT_FILENO, out, _strlen(out));
+		free(out);
 	}
 	else if (_strncmp(cmd->args[1], "..", 2) == 0)
 		dir = mod_str(cmd->args[1], pd, 2);

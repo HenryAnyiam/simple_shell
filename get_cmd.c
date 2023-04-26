@@ -37,7 +37,7 @@ char **cp_env(void)
   *)
   *Return: 0 or -1
   */
-int set_cmd(cmd_in *cmd, char **arg, int i, int fd)
+int set_cmd(cmd_in *cmd, char **arg, int i, int fd, int mark)
 {
 	size_t size = 0;
 	ssize_t cmp = -1, check;
@@ -54,7 +54,8 @@ int set_cmd(cmd_in *cmd, char **arg, int i, int fd)
 		return (0);
 	if (i != 1)
 	{
-		free_cmd(cmd->args);
+		if (mark >= 0)
+			free_cmd(cmd->args);
 		free(cmd->cmd);
 	}
 	cmd->cmd = buf;
@@ -83,14 +84,14 @@ int set_cmd(cmd_in *cmd, char **arg, int i, int fd)
   */
 void start_loop(char **arg, cmd_in *cmd, int fd)
 {
-	int check;
+	int check, mark = 0;
 	int i = 1;
 
 	while (1)
 	{
 		if (fd == STDIN_FILENO)
 			write(STDIN_FILENO, "($) ", 4);
-		check = set_cmd(cmd, arg, i, fd);
+		check = set_cmd(cmd, arg, i, fd, mark);
 		if (check == -1)
 		{
 			write(STDIN_FILENO, "^C\n", 3);
@@ -100,8 +101,8 @@ void start_loop(char **arg, cmd_in *cmd, int fd)
 			;
 		else
 		{
-			check = remove_comments(cmd);
-			if (check == -1)
+			mark = remove_comments(cmd);
+			if (mark < 0)
 				continue;
 			check = handle_sep(cmd);
 			if (check == -1)

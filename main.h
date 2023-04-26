@@ -104,7 +104,7 @@ int _strncmp(char *s1, char *s2, int n);
 int handle_cmd(cmd_in *cmd);
 char *_strcpy(char *dest, char *src);
 char *_strdup(const char *src);
-int set_cmd(cmd_in *cmd, char **arg, int i, int fd);
+int set_cmd(cmd_in *cmd, char **arg, int i, int fd, int mark);
 void start_loop(char **arg, cmd_in *cmd, int fd);
 char **cp_env(void);
 char *get_path(cmd_in *cmd);
