@@ -21,7 +21,7 @@ ssize_t _getline(char **buffer, size_t *size, int fd)
 		fflush(stdin);
 	while (1)
 	{
-		i = read(fd, &curr, 1);
+		i = read(STDIN_FILENO, &curr, 1);
 		if ((i <= cmp) || ((len == 0) && (i == 0)))
 		{
 			free(buff);
