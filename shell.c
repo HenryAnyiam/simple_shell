@@ -88,12 +88,14 @@ int main(int __attribute__((unused)) ac, char **av)
 {
 	cmd_in cmd;
 	int fd = 0;
-	char *arg = _strdup(av[0]);
+	char *arg = NULL;
 
+	signal(SIGINT, handle_sigint);
 	if (av[1] != NULL)
 		fd = open(av[1], O_RDONLY);
 	if (fd < 0)
 	{
+		arg = _strdup(av[0]);
 		arg = _strcat(arg, ": 0: Can't open ");
 		arg = _strcat(arg, av[1]);
 		arg = _strcat(arg, "\n");
@@ -103,4 +105,13 @@ int main(int __attribute__((unused)) ac, char **av)
 	}
 	start_loop(av, &cmd, fd);
 	return (cmd.exit);
+}
+
+/**
+  *handle_sigint - handle sigint
+  *@sigint: signal
+  */
+void handle_sigint(int __attribute__ ((unused)) sigint)
+{
+	write(STDOUT_FILENO, "\n($) ", 5);
 }

@@ -88,7 +88,7 @@ void start_loop(char **arg, cmd_in *cmd, int fd)
 
 	while (1)
 	{
-		if (fd == 0)
+		if (fd == STDIN_FILENO)
 			write(STDIN_FILENO, "($) ", 4);
 		check = set_cmd(cmd, arg, i, fd);
 		if (check == -1)

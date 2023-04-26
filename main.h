@@ -90,6 +90,7 @@ typedef struct seperators
 	struct seperators *next;
 } sep_list;
 
+void handle_sigint(int sigint);
 void exec(cmd_in *cmd);
 char *_strcat(char *dest, const char *src);
 char *_itoa(int i);
