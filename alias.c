@@ -108,7 +108,7 @@ int print_all(cmd_in *cmd)
 int print_alias(cmd_in *cmd, char *name)
 {
 	int i = 0, len;
-	char *names, new = rem_slash(name);
+	char *names, *new = rem_slash(name);
 
 	if (cmd->name == NULL)
 	{
