@@ -8,10 +8,11 @@
   *)
   *Return: size
   */
-size_t _getline(char **buffer, size_t *size, FILE *stream)
+ssize_t _getline(char **buffer, size_t *size, FILE *stream)
 {
 	char curr;
-	size_t i, len = 0, buff_size = 1024;
+	ssize_t cmp = -1, i;
+	size_t len = 0, buff_size = 1024;
 	char *buff = malloc(sizeof(char) * buff_size);
 
 	if (buff == NULL)
@@ -20,7 +21,7 @@ size_t _getline(char **buffer, size_t *size, FILE *stream)
 	while (1)
 	{
 		i = read(STDIN_FILENO, &curr, 1);
-		if ((i < 0) || ((len == 0) && (i == 0)))
+		if ((i <= cmp) || ((len == 0) && (i == 0)))
 		{
 			free(buff);
 			return (-1);

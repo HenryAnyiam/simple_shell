@@ -38,11 +38,12 @@ char **cp_env(void)
   */
 int set_cmd(cmd_in *cmd, char **arg, int i)
 {
-	size_t check, size = 0;
+	size_t size = 0;
+	ssize_t cmp = -1, check;
 	char *buf = NULL;
 
 	check = _getline(&buf, &size, stdin);
-	if ((check == -1) && (i != 0))
+	if ((check == cmp) && (i != 0))
 	{
 		free(buf);
 		return (-1);
@@ -60,11 +61,14 @@ int set_cmd(cmd_in *cmd, char **arg, int i)
 	{
 		cmd->env = cp_env();
 		cmd->av = arg;
+		cmd->pid = _itoa(getpid());
 		cmd->args = NULL;
 		cmd->status = 0;
 		cmd->exit = 0;
 		cmd->name = NULL;
 		cmd->value = NULL;
+		cmd->var = NULL;
+		cmd->val = NULL;
 	}
 	return (1);
 }
@@ -106,6 +110,12 @@ void start_loop(char **arg, cmd_in *cmd)
 		free_cmd(cmd->name);
 		free_cmd(cmd->value);
 	}
+	if (cmd->var != NULL)
+	{
+		free_cmd(cmd->var);
+		free_cmd(cmd->val);
+	}
+	free(cmd->pid);
 	free_cmd(cmd->args);
 	free_cmd(cmd->env);
 }

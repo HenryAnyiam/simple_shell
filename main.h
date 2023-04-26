@@ -42,7 +42,10 @@ typedef struct cmd_input
 	char **env;
 	char **name;
 	char **value;
+	char **var;
+	char **val;
 	char *cmd;
+	char *pid;
 	int status;
 	int p;
 	unsigned int exit;
@@ -104,7 +107,7 @@ int handle_ext(cmd_in *cmd);
 int (*get_btn(char *cmnd))(cmd_in *cmd);
 int exit_shell(cmd_in *cmd);
 int _env(cmd_in *cmd);
-size_t _getline(char **buffer, size_t *size, FILE *stream);
+ssize_t _getline(char **buffer, size_t *size, FILE *stream);
 char *_strtok(char *str, const char *delim);
 int _strchr(const char *s, char c);
 int _atoi(char *s);
@@ -147,5 +150,10 @@ int check_alias(cmd_in *cmd);
 char *add_slash(char *str);
 char *rem_slash(char *str);
 void set_new(cmd_in *cmd, char *str);
+int create_var(cmd_in *cmd, int mark);
+int rep_var(cmd_in *cmd);
+int save_var(cmd_in *cmd, char *var);
+int reset_args(cmd_in *cmd, int i);
+int add_variable(cmd_in *cmd, int i);
 
 #endif

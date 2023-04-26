@@ -75,7 +75,7 @@ int del_var(cmd_in *cmd, int i)
 
 	for (len = 0; cmd->env[len] != NULL; len++)
 		;
-	new_env = malloc(sizeof(char *) * len);
+	new_env = malloc(sizeof(char *) * (len + 1));
 	if (new_env == NULL)
 	{
 		write(STDERR_FILENO, "Allocation Error\n", 18);
@@ -90,6 +90,8 @@ int del_var(cmd_in *cmd, int i)
 			skip++;
 			new_env[len] = _strdup(cmd->env[skip]);
 		}
+		if (cmd->env[skip] == NULL)
+			break;
 	}
 	new_env[len] = NULL;
 	free_cmd(cmd->env);

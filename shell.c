@@ -79,7 +79,7 @@ void free_cmd(char **args)
   *)
   *Return: 0 on success
   */
-int main(int ac, char **av, char **env)
+int main(int __attribute__((unused)) ac, char **av)
 {
 	cmd_in cmd;
 

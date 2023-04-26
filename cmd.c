@@ -128,7 +128,11 @@ int handle_ext(cmd_in *cmd)
 int handle_cmd(cmd_in *cmd)
 {
 	int (*btn_cmds)(cmd_in *cmd);
+	int check;
 
+	check = rep_var(cmd);
+	if (check == -1)
+		return (0);
 	check_alias(cmd);
 	btn_cmds = get_btn(cmd->args[0]);
 	if (btn_cmds != NULL)

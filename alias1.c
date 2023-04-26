@@ -9,7 +9,8 @@
 void get_pair(char **name, char **value, char *str)
 {
 	char *a, *buf = NULL;
-	size_t check, size = 0;
+	size_t size = 0;
+	ssize_t cmp = -1, check;
 
 	a = _strtok(str, "=");
 	*name = _strdup(a);
@@ -20,7 +21,7 @@ void get_pair(char **name, char **value, char *str)
 	{
 		write(STDIN_FILENO, "> ", 2);
 		check = _getline(&buf, &size, stdin);
-		if (check == -1)
+		if (check == cmp)
 			*value = _strdup("'\n");
 		else
 		{
@@ -70,11 +71,11 @@ char *rem_slash(char *str)
 	char *s;
 
 	len = _strlen(str);
-	s = malloc(sizeof(char) * len);
+	s = malloc(sizeof(char) * (len + 1));
 
 	for (i = 0, j = 0; str[i] != '\0'; i++)
 	{
-		if (str[i] != '\'')
+		if ((str[i] != '\'') && (str[i] != '"'))
 		{
 			s[j] = str[i];
 			j++;
