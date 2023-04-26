@@ -82,6 +82,9 @@ int print_all(cmd_in *cmd)
 	if (cmd->name == NULL)
 		return (1);
 	while (cmd->name[i] != NULL)
+		i++;
+	i--;
+	while (i >= 0)
 	{
 		names = _strdup(cmd->name[i]);
 		names = _strcat(names, "=");
@@ -90,7 +93,7 @@ int print_all(cmd_in *cmd)
 		len = _strlen(names);
 		write(STDOUT_FILENO, names, len);
 		free(names);
-		i++;
+		i--;
 	}
 	return (1);
 }

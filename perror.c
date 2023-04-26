@@ -14,7 +14,7 @@ void _perror(cmd_in *cmd)
 	error = _strcat(error, ": ");
 	error = _strcat(error, process);
 	error = _strcat(error, ": ");
-	error = _strcat(error, cmd->args[0]);
+	error = _strcat(error, cmd->cmd);
 	error = _strcat(error, ": ");
 	error = _strcat(error, "not found\n");
 	len = _strlen(error);

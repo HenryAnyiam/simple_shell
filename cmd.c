@@ -113,8 +113,8 @@ int handle_ext(cmd_in *cmd)
 		_perror(cmd);
 		return (0);
 	}
-	free(cmd->args[0]);
-	cmd->args[0] = alias;
+	free(cmd->cmd);
+	cmd->cmd = alias;
 	exec(cmd);
 	return (0);
 }
@@ -134,6 +134,8 @@ int handle_cmd(cmd_in *cmd)
 	if (check == -1)
 		return (0);
 	check_alias(cmd);
+	free(cmd->cmd);
+	cmd->cmd = _strdup(cmd->args[0]);
 	btn_cmds = get_btn(cmd->args[0]);
 	if (btn_cmds != NULL)
 		return (btn_cmds(cmd));

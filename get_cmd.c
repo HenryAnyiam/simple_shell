@@ -50,14 +50,14 @@ int set_cmd(cmd_in *cmd, char **arg, int i)
 	}
 	if (buf[0] == '\n')
 		return (0);
-	if (i != 0)
+	if (i != 1)
 	{
 		free_cmd(cmd->args);
 		free(cmd->cmd);
 	}
 	cmd->cmd = buf;
 	cmd->p = i;
-	if (cmd->p == 0)
+	if (cmd->p == 1)
 	{
 		cmd->env = cp_env();
 		cmd->av = arg;
@@ -81,7 +81,7 @@ int set_cmd(cmd_in *cmd, char **arg, int i)
 void start_loop(char **arg, cmd_in *cmd)
 {
 	int check;
-	int i = 0;
+	int i = 1;
 
 	while (1)
 	{
@@ -89,7 +89,7 @@ void start_loop(char **arg, cmd_in *cmd)
 		check = set_cmd(cmd, arg, i);
 		if (check == -1)
 		{
-			write(STDIN_FILENO, "\n", 1);
+			write(STDIN_FILENO, "^C\n", 3);
 			break;
 		}
 		else if (check == 0)

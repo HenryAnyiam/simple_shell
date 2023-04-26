@@ -7,15 +7,17 @@
 void exec(cmd_in *cmd)
 {
 	pid_t child;
-	int status;
+	int status, check;
+
 
 	child = fork();
 	if (child == -1)
 		perror("Child Error");
 	else if (child == 0)
 	{
-		if (execve(cmd->args[0], cmd->args, cmd->env) == -1)
-			perror("exec error");
+		check = execve(cmd->cmd, cmd->args, cmd->env);
+		printf("%d\n", check);
+		perror(cmd->av[0]);
 	}
 	else
 		wait(&status);
