@@ -1,0 +1,5 @@
+ls
+ls --color=auto
+env
+echo $$
+exit
