@@ -36,7 +36,7 @@ int (*get_btn(char *cmnd))(cmd_in *)
 char *get_path(cmd_in *cmd)
 {
 	int i = 0, len;
-	char *path;
+	char *path = NULL;
 
 	while (cmd->env[i] != NULL)
 	{

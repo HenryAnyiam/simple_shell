@@ -28,6 +28,7 @@ int exit_shell(cmd_in *cmd)
 			return (0);
 		}
 	}
+	cmd->status = 0;
 	return (-1);
 }
 
@@ -48,6 +49,7 @@ int _env(cmd_in *cmd)
 		write(STDOUT_FILENO, "\n", 1);
 		++i;
 	}
+	cmd->status = 0;
 	return (0);
 }
 
@@ -61,6 +63,7 @@ int _setenv(cmd_in *cmd)
 {
 	int i, len_var;
 
+	cmd->status = 0;
 	if ((cmd->args[1] == NULL) || (cmd->args[2] == NULL))
 	{
 		_penv(cmd);
@@ -87,6 +90,7 @@ int _unsetenv(cmd_in *cmd)
 {
 	int i, len_var;
 
+	cmd->status = 0;
 	if (cmd->args[1] == NULL)
 	{
 		_penv(cmd);
@@ -135,9 +139,10 @@ int _changedir(cmd_in *cmd)
 	else if (_strncmp(cmd->args[1], ".", 1) == 0)
 		dir = mod_str(cmd->args[1], cd, 1);
 	else
-		dir = rem_slash(cmd->args[1]);
+		dir = _strdup(cmd->args[1]);
 	free(pd);
 	free(fwd);
 	free(home);
+	cmd->status = 0;
 	return (cd_dir(cmd, dir, cd));
 }

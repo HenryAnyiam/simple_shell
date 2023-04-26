@@ -42,7 +42,7 @@ int _makealias(cmd_in *cmd)
   */
 int get_full(cmd_in *cmd, int index)
 {
-	int i, check;
+	int i, check = 0;
 	char *arg = _strdup(cmd->args[index]);
 
 	while (check != 2)
@@ -108,7 +108,7 @@ int print_all(cmd_in *cmd)
 int print_alias(cmd_in *cmd, char *name)
 {
 	int i = 0, len;
-	char *names, *new = rem_slash(name);
+	char *names;
 
 	if (cmd->name == NULL)
 	{
@@ -117,7 +117,7 @@ int print_alias(cmd_in *cmd, char *name)
 	}
 	while (cmd->name[i] != NULL)
 	{
-		if (_strcmp(cmd->name[i], new) == 0)
+		if (_strcmp(cmd->name[i], name) == 0)
 		{
 			names = _strdup(cmd->name[i]);
 			names = _strcat(names, "=");

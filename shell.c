@@ -8,7 +8,7 @@ void exec(cmd_in *cmd)
 {
 	char *er;
 	pid_t child;
-	int status, check;
+	int status = 0, check;
 
 
 	child = fork();

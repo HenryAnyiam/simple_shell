@@ -75,6 +75,8 @@ int cd_dir(cmd_in *cmd, char *new_dir, char *cd)
 	i = chdir(new_dir);
 	if (i == -1)
 	{
+		free(new_dir);
+		free(cd);
 		cd_perror(cmd);
 		return (0);
 	}

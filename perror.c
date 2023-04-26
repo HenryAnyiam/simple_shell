@@ -92,7 +92,7 @@ void cd_perror(cmd_in *cmd)
 	error = _strcat(error, process);
 	error = _strcat(error, ": ");
 	error = _strcat(error, cmd->args[0]);
-	error = _strcat(error, ": Can't cd to ");
+	error = _strcat(error, ": can't cd to ");
 	error = _strcat(error, cmd->args[1]);
 	error = _strcat(error, "\n");
 	len = _strlen(error);

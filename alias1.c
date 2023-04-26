@@ -77,7 +77,7 @@ char *rem_slash(char *str)
 	for (i = 0, j = 0; str[i] != '\0'; i++)
 	{
 		c = str[i];
-		if ((c != '\'') && (c != '"') && (c != '[') && (c != ']'))
+		if ((c != '\'') && (c != '"'))
 		{
 			s[j] = str[i];
 			j++;
