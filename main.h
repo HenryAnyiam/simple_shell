@@ -164,5 +164,7 @@ int add_variable(cmd_in *cmd, int i);
 int saved_var(cmd_in *cmd, char *var, int i);
 void assign_var(cmd_in *cmd, char *var, char *val, int i);
 void free_all(cmd_in *cmd);
+int remove_comments(cmd_in *cmd);
+void strcut(cmd_in *cmd, int i);
 
 #endif

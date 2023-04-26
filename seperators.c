@@ -46,7 +46,7 @@ cmd_list *add_input(cmd_list **head_c, char *str)
 	char *hold, *temp;
 	char *dup = _strdup(str);
 
-	hold = _strtok(dup, ";|&");
+	hold = _strtok(dup, ";&|");
 	temp = _strdup(hold);
 	cmd_node(head_c, temp);
 	while (hold != NULL)
@@ -77,12 +77,12 @@ sep_list *add_sep(sep_list **head, char *str)
 
 	for (i = 0; str[i] != '\0'; i++)
 	{
-		if (str[i] == '&')
+		if ((str[i] == '&') && (str[i + 1] == '&'))
 		{
 			sep_node(head, '&');
 			i++;
 		}
-		else if (str[i] == '|')
+		else if ((str[i] == '|') && (str[i + 1] == '|'))
 		{
 			sep_node(head, '|');
 			i++;

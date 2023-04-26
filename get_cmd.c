@@ -100,6 +100,9 @@ void start_loop(char **arg, cmd_in *cmd, int fd)
 			;
 		else
 		{
+			check = remove_comments(cmd);
+			if (check == -1)
+				continue;
 			check = handle_sep(cmd);
 			if (check == -1)
 			{
@@ -134,4 +137,3 @@ void free_all(cmd_in *cmd)
 	if (cmd->fd > 0)
 		close(cmd->fd);
 }
-
