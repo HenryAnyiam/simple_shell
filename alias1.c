@@ -20,7 +20,7 @@ void get_pair(char **name, char **value, char *str)
 	else if ((a[0] == '\'') && (a[1] == '\0'))
 	{
 		write(STDIN_FILENO, "> ", 2);
-		check = _getline(&buf, &size, stdin);
+		check = _getline(&buf, &size, 0);
 		if (check == cmp)
 			*value = _strdup("'\n");
 		else

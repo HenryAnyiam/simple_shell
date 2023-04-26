@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 
 /* array of pointers to enviroment variables */
 extern char **environ;
@@ -30,9 +31,13 @@ typedef struct args
   *@env: array of enviroment variables
   *@name: alias
   *@value: values
+  *@var: variables
+  *@val: values
   *@cmd: command input
+  *@pid: process ID
   *@status: status of executed command
   *@p: current process
+  *@fd: file descriptor
   *@exit: exit status
   */
 typedef struct cmd_input
@@ -48,6 +53,7 @@ typedef struct cmd_input
 	char *pid;
 	int status;
 	int p;
+	int fd;
 	unsigned int exit;
 } cmd_in;
 
@@ -98,8 +104,8 @@ int _strncmp(char *s1, char *s2, int n);
 int handle_cmd(cmd_in *cmd);
 char *_strcpy(char *dest, char *src);
 char *_strdup(const char *src);
-int set_cmd(cmd_in *cmd, char **arg, int i);
-void start_loop(char **arg, cmd_in *cmd);
+int set_cmd(cmd_in *cmd, char **arg, int i, int fd);
+void start_loop(char **arg, cmd_in *cmd, int fd);
 char **cp_env(void);
 char *get_path(cmd_in *cmd);
 char *get_alias(char *path, char *arg);
@@ -107,7 +113,7 @@ int handle_ext(cmd_in *cmd);
 int (*get_btn(char *cmnd))(cmd_in *cmd);
 int exit_shell(cmd_in *cmd);
 int _env(cmd_in *cmd);
-ssize_t _getline(char **buffer, size_t *size, FILE *stream);
+ssize_t _getline(char **buffer, size_t *size, int fd);
 char *_strtok(char *str, const char *delim);
 int _strchr(const char *s, char c);
 int _atoi(char *s);
@@ -155,5 +161,8 @@ int rep_var(cmd_in *cmd);
 int save_var(cmd_in *cmd, char *var);
 int reset_args(cmd_in *cmd, int i);
 int add_variable(cmd_in *cmd, int i);
+int saved_var(cmd_in *cmd, char *var, int i);
+void assign_var(cmd_in *cmd, char *var, char *val, int i);
+void free_all(cmd_in *cmd);
 
 #endif

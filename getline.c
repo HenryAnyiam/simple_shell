@@ -4,11 +4,11 @@
   *_getline - reads a line from stream
   *@buffer: pointer to buffer to hold line
   *@size: pointer to size of buffer
-  *@stream: stream to read from
+  *@fd: stream to read from
   *)
   *Return: size
   */
-ssize_t _getline(char **buffer, size_t *size, FILE *stream)
+ssize_t _getline(char **buffer, size_t *size, int fd)
 {
 	char curr;
 	ssize_t cmp = -1, i;
@@ -17,10 +17,11 @@ ssize_t _getline(char **buffer, size_t *size, FILE *stream)
 
 	if (buff == NULL)
 		return (-1);
-	fflush(stream);
+	if (fd == 0)
+		fflush(stdin);
 	while (1)
 	{
-		i = read(STDIN_FILENO, &curr, 1);
+		i = read(fd, &curr, 1);
 		if ((i <= cmp) || ((len == 0) && (i == 0)))
 		{
 			free(buff);

@@ -81,14 +81,26 @@ void free_cmd(char **args)
   *main - main shell function
   *@ac: argument count
   *@av: array of arguments
-  *@env: array of enviroment variables
   *)
   *Return: 0 on success
   */
 int main(int __attribute__((unused)) ac, char **av)
 {
 	cmd_in cmd;
+	int fd = 0;
+	char *arg = _strdup(av[0]);
 
-	start_loop(av, &cmd);
+	if (av[1] != NULL)
+		fd = open(av[1], O_RDONLY);
+	if (fd < 0)
+	{
+		arg = _strcat(arg, ": 0: Can't open ");
+		arg = _strcat(arg, av[1]);
+		arg = _strcat(arg, "\n");
+		write(STDERR_FILENO, arg, _strlen(arg));
+		free(arg);
+		return (127);
+	}
+	start_loop(av, &cmd, fd);
 	return (cmd.exit);
 }

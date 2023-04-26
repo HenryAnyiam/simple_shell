@@ -1,5 +1,11 @@
 #include "main.h"
 
+/**
+  *rep_var - handles variable replacement
+  *@cmd: struct holding important data
+  *)
+  *Return: 0
+  */
 int rep_var(cmd_in *cmd)
 {
 	int i, j, check, mark = 0;
@@ -30,7 +36,6 @@ int rep_var(cmd_in *cmd)
 	}
 	check = 0;
 	for (i = 0; cmd->args[i] != NULL; i++)
-	{
 		for (j = 0; cmd->args[i][j] != '\0'; j++)
 		{
 			c = cmd->args[i][j];
@@ -41,10 +46,16 @@ int rep_var(cmd_in *cmd)
 			if ((c == '$') && (check == 0))
 				add_variable(cmd, i);
 		}
-	}
 	return (0);
 }
 
+/**
+  *create_var - creates a new variable
+  *@cmd: struct holding important data
+  *@mark: if var in string
+  *)
+  *Return: 0
+  */
 int create_var(cmd_in *cmd, int mark)
 {
 	int j, i = 0, check = 0;
@@ -81,9 +92,16 @@ int create_var(cmd_in *cmd, int mark)
 	return (-1);
 }
 
+/**
+  *save_var - saves variable
+  *@cmd: struct
+  *@str: string
+  *)
+  *Return: 0
+  */
 int save_var(cmd_in *cmd, char *str)
 {
-	int i = 0, temp, temp1;
+	int i = 0;
 	char *var = _strdup(_strtok(str, "="));
 	char *val = _strdup(_strtok(NULL, "\0"));
 	char *new;
@@ -114,7 +132,6 @@ int save_var(cmd_in *cmd, char *str)
 		return (0);
 	}
 	for (i = 0; cmd->var[i] != NULL; i++)
-	{
 		if (_strcmp(cmd->var[i], var) == 0)
 		{
 			free(cmd->val[i]);
@@ -122,7 +139,21 @@ int save_var(cmd_in *cmd, char *str)
 			free(val);
 			return (0);
 		}
-	}
+	assign_var(cmd, var, val, i);
+	return (0);
+}
+
+/**
+  *assign_var - realloc array to hold extra variable
+  *@cmd: struct
+  *@var: variable
+  *@val: value
+  *@i: index
+  */
+void assign_var(cmd_in *cmd, char *var, char *val, int i)
+{
+	unsigned int temp, temp1;
+
 	temp = sizeof(char *) * (i + 1);
 	temp1 = sizeof(char *) * (i + 2);
 	cmd->var = _realloc(cmd->var, temp, temp1);
@@ -131,9 +162,15 @@ int save_var(cmd_in *cmd, char *str)
 	cmd->val[i] = val;
 	cmd->var[i + 1] = NULL;
 	cmd->val[i + 1] = NULL;
-	return (0);
 }
 
+/**
+  *reset_args - restructures argumnts
+  *@cmd: struct
+  *@i: index
+  *)
+  *Return: 0
+  */
 int reset_args(cmd_in *cmd, int i)
 {
 	int j;
@@ -146,64 +183,5 @@ int reset_args(cmd_in *cmd, int i)
 	}
 	cmd->args = set_args(new);
 	free(new);
-	return (0);
-}
-
-int add_variable(cmd_in *cmd, int i)
-{
-	char *hold = _strdup(cmd->args[i]);
-	char *var = _strtok(hold, "$");
-	int j, len = _strlen(var);
-	char *env, *val;
-
-	var = _strtok(NULL, "\0");
-	if (var == NULL)
-	{
-		free(hold);
-		return (0);
-	}
-	if (_strcmp(var, "$") == 0)
-	{
-		free(cmd->args[i]);
-		cmd->args[i] = _strdup(cmd->pid);
-		free(hold);
-		return (0);
-	}
-	if (_strcmp(var, "?") == 0)
-	{
-		free(cmd->args[i]);
-		cmd->args[i] = _itoa(cmd->status);
-		free(hold);
-		return (0);
-	}
-	for (j = 0; cmd->env[j] != NULL; j++)
-	{
-		if (_strncmp(cmd->env[j], var, len) == 0)
-		{
-			env = _strdup(cmd->env[j]);
-			val = _strtok(env, "=");
-			val = _strtok(NULL, "\0");
-			free(cmd->args[i]);
-			cmd->args[i] = _strdup(val);
-			free(env);
-			free(hold);
-			return (0);
-		}
-	}
-	for (j = 0; cmd->var[j] != NULL; j++)
-	{
-		if (strcmp(cmd->var[j], var) == 0)
-		{
-			env = _strdup(cmd->val[j]);
-			free(cmd->args[i]);
-			cmd->args[i] = rem_slash(env);
-			free(env);
-			free(hold);
-			return (0);
-		}
-	}
-	free(cmd->args[i]);
-	cmd->args[i] = _strdup("");
-	free(hold);
 	return (0);
 }

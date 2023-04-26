@@ -33,16 +33,18 @@ char **cp_env(void)
   *@cmd: struct to set
   *@arg: array of command line arguments
   *@i: current process count
+  *@fd: file descriptor
   *)
   *Return: 0 or -1
   */
-int set_cmd(cmd_in *cmd, char **arg, int i)
+int set_cmd(cmd_in *cmd, char **arg, int i, int fd)
 {
 	size_t size = 0;
 	ssize_t cmp = -1, check;
 	char *buf = NULL;
 
-	check = _getline(&buf, &size, stdin);
+	cmd->fd = fd;
+	check = _getline(&buf, &size, fd);
 	if ((check == cmp) && (i != 0))
 	{
 		free(buf);
@@ -77,16 +79,18 @@ int set_cmd(cmd_in *cmd, char **arg, int i)
   *start_loop - starts shell
   *@arg: command line arguments
   *@cmd: struct
+  *@fd: file descriptor
   */
-void start_loop(char **arg, cmd_in *cmd)
+void start_loop(char **arg, cmd_in *cmd, int fd)
 {
 	int check;
 	int i = 1;
 
 	while (1)
 	{
-		write(STDIN_FILENO, "($) ", 4);
-		check = set_cmd(cmd, arg, i);
+		if (fd == 0)
+			write(STDIN_FILENO, "($) ", 4);
+		check = set_cmd(cmd, arg, i, fd);
 		if (check == -1)
 		{
 			write(STDIN_FILENO, "^C\n", 3);
@@ -104,6 +108,15 @@ void start_loop(char **arg, cmd_in *cmd)
 			++i;
 		}
 	}
+	free_all(cmd);
+}
+
+/**
+  *free_all - handles free for struct
+  *@cmd: struct
+  */
+void free_all(cmd_in *cmd)
+{
 	free(cmd->cmd);
 	if (cmd->name != NULL)
 	{
@@ -118,4 +131,7 @@ void start_loop(char **arg, cmd_in *cmd)
 	free(cmd->pid);
 	free_cmd(cmd->args);
 	free_cmd(cmd->env);
+	if (cmd->fd > 0)
+		close(cmd->fd);
 }
+
