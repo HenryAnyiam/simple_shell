@@ -143,9 +143,12 @@ int _changedir(cmd_in *cmd)
 		dir = mod_str(cmd->args[1], cd, 1);
 	else
 		dir = _strdup(cmd->args[1]);
-	free(pd);
-	free(fwd);
-	free(home);
+	if (pd != NULL)
+		free(pd);
+	if (fwd != NULL)
+		free(fwd);
+	if (home != NULL)
+		free(home);
 	cmd->status = 0;
 	return (cd_dir(cmd, dir, cd));
 }

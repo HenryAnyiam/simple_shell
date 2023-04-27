@@ -11,8 +11,11 @@
   */
 int set_var(cmd_in *cmd, char *var, char *val, int i)
 {
-	char *new_env = _strdup(var);
+	char *new_env;
 
+	if ((val == NULL) || (var == NULL))
+		return (0);
+	new_env = _strdup(var);
 	new_env = _strcat(new_env, "=");
 	new_env = _strcat(new_env, val);
 	if (new_env == NULL)

@@ -19,7 +19,7 @@ char *get_dir(cmd_in *cmd, char *var, int len)
 		{
 			temp = _strdup(cmd->env[i]);
 			temp1 = _strtok(temp, "=");
-			temp1 = _strtok(NULL, "=");
+			temp1 = _strtok(NULL, "\0");
 			dir = _strdup(temp1);
 			free(temp);
 			return (dir);
@@ -65,7 +65,7 @@ char *get_pd(char *cd)
   */
 int cd_dir(cmd_in *cmd, char *new_dir, char *cd)
 {
-	int i, o, p;
+	int i, o = -1, p = -1;
 
 	if (new_dir == NULL)
 	{
@@ -82,14 +82,17 @@ int cd_dir(cmd_in *cmd, char *new_dir, char *cd)
 	}
 	for (i = 0; cmd->env[i] != NULL; i++)
 	{
-		if (_strncmp(cmd->env[i], "PWD", 3) == 0)
+		if (_strncmp(cmd->env[i], "PWD=", 4) == 0)
 			p = i;
-		if (_strncmp(cmd->env[i], "OLDPWD", 6) == 0)
+		if (_strncmp(cmd->env[i], "OLDPWD=", 7) == 0)
 			o = i;
 	}
-	set_var(cmd, "PWD", new_dir, p);
-	set_var(cmd, "OLDPWD", cd, o);
+	if (p != -1)
+		set_var(cmd, "PWD", new_dir, p);
+	if (o != -1)
+		set_var(cmd, "OLDPWD", cd, o);
 	free(new_dir);
-	free(cd);
+	if (cd != NULL)
+		free(cd);
 	return (0);
 }
