@@ -25,7 +25,7 @@ int remove_comments(cmd_in *cmd)
 			if (i == 0)
 				return (-1);
 			strcut(cmd, i);
-			break;
+			return (0);
 		}
 	}
 	return (0);

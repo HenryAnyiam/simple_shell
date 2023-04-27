@@ -54,7 +54,10 @@ int set_cmd(cmd_in *cmd, char **arg, int i, int fd, int mark)
 		return (-1);
 	}
 	if (buf[0] == '\n')
+	{
+		free(buf);
 		return (0);
+	}
 	if (i != 1)
 	{
 		if (mark >= 0)
@@ -64,21 +67,28 @@ int set_cmd(cmd_in *cmd, char **arg, int i, int fd, int mark)
 	cmd->cmd = buf;
 	cmd->p = i;
 	if (cmd->p == 1)
-	{
-		cmd->env = cp_env();
-		cmd->av = arg;
-		cmd->pid = _itoa(getpid());
-		cmd->args = NULL;
-		cmd->status = 0;
-		cmd->exit = 0;
-		cmd->name = NULL;
-		cmd->value = NULL;
-		cmd->var = NULL;
-		cmd->val = NULL;
-	}
+		fill_cmd(cmd, arg);
 	return (1);
 }
 
+/**
+  *fill_cmd - fills the struct at start
+  *@cmd: struct
+  *@arg: command line arguments
+  */
+void fill_cmd(cmd_in *cmd, char **arg)
+{
+	cmd->env = cp_env();
+	cmd->av = arg;
+	cmd->pid = _itoa(getpid());
+	cmd->args = NULL;
+	cmd->status = 0;
+	cmd->exit = 0;
+	cmd->name = NULL;
+	cmd->value = NULL;
+	cmd->var = NULL;
+	cmd->val = NULL;
+}
 /**
   *start_loop - starts shell
   *@arg: command line arguments
@@ -99,6 +109,8 @@ void start_loop(char **arg, cmd_in *cmd, int fd)
 		{
 			if (fd == STDIN_FILENO)
 				write(STDIN_FILENO, "^C\n", 3);
+			if (i == 1)
+				cmd->status = 0;
 			break;
 		}
 		else if (check == 0)

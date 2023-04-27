@@ -159,6 +159,7 @@ int set_alias(cmd_in *cmd, char *str)
 		{
 			free(cmd->value[i]);
 			cmd->value[i] = values;
+			free(name);
 			return (1);
 		}
 	temp = sizeof(char *) * (i + 1);
