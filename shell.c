@@ -47,8 +47,8 @@ char **set_args(char *buf)
 	hold = _strtok(buff, " ");
 	while (hold != NULL)
 	{
-		if (hold[0] == '\0')
-			hold = _strtok(NULL, " ");
+		if (hold == NULL)
+			continue;
 		argv[i] = _strdup(hold);
 		hold = _strtok(NULL, " ");
 		temp = sizeof(char *) * (i + 1);
@@ -57,6 +57,14 @@ char **set_args(char *buf)
 		i++;
 	}
 	argv[i] = NULL;
+	if (argv[0] == NULL)
+	{
+		free_cmd(argv);
+		argv = malloc(sizeof(char *) * 2);
+		argv[0] = _strdup("DO_NIL");
+		argv[1] = NULL;
+	}
+
 	free(args);
 	return (argv);
 }

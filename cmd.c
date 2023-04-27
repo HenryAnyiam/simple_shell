@@ -15,11 +15,12 @@ int (*get_btn(char *cmnd))(cmd_in *)
 		{"unsetenv", _unsetenv},
 		{"cd", _changedir},
 		{"alias", _makealias},
+		{"DO_NIL", _nothing},
 		{NULL, NULL}
 	};
 	int i = 0;
 
-	for (i = 0; i < 6; ++i)
+	for (i = 0; i < 7; ++i)
 	{
 		if (_strcmp(builtin[i].cmd, cmnd) == 0)
 			return (builtin[i].btn);
