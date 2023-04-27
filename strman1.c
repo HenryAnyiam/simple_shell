@@ -91,12 +91,23 @@ char *_strtok(char *str, const char *delim)
 	{
 		if ((_strchr(delim, *p)) != 0)
 		{
-			*p = '\0';
-			++p;
-			return (new);
+			if (*new != *p)
+			{
+				*p = '\0';
+				++p;
+				return (new);
+			}
+			else
+			{
+				++p;
+				new = p;
+				continue;
+			}
 		}
 		++p;
 	}
+	if (*new == *p)
+		return (NULL);
 	return (new);
 }
 
