@@ -46,6 +46,8 @@ int set_cmd(cmd_in *cmd, char **arg, int i, int fd, int mark)
 
 	cmd->fd = fd;
 	check = _getline(&buf, &size, fd);
+	if ((check == 0) && (i == 1) && (fd != STDIN_FILENO))
+		return (-1);
 	if ((check == cmp) && (i != 0))
 	{
 		free(buf);
@@ -95,7 +97,8 @@ void start_loop(char **arg, cmd_in *cmd, int fd)
 		check = set_cmd(cmd, arg, i, fd, mark);
 		if (check == -1)
 		{
-			write(STDIN_FILENO, "^C\n", 3);
+			if (fd == STDIN_FILENO)
+				write(STDIN_FILENO, "^C\n", 3);
 			break;
 		}
 		else if (check == 0)
@@ -113,7 +116,8 @@ void start_loop(char **arg, cmd_in *cmd, int fd)
 			}
 		}
 	}
-	free_all(cmd);
+	if (i != 1)
+		free_all(cmd);
 }
 
 /**

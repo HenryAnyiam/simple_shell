@@ -9,12 +9,18 @@
 int remove_comments(cmd_in *cmd)
 {
 	char c;
-	int i;
+	int i, check = 0;
 
 	for (i = 0; cmd->cmd[i] != '\0'; i++)
 	{
 		c = cmd->cmd[i];
-		if (c == '#')
+		if ((c == '\'') || (c == '"'))
+		{
+			check++;
+			if (check == 2)
+				check = 0;
+		}
+		if ((c == '#') && (check == 0))
 		{
 			if (i == 0)
 				return (-1);

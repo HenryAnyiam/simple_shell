@@ -69,7 +69,8 @@ int cd_dir(cmd_in *cmd, char *new_dir, char *cd)
 
 	if (new_dir == NULL)
 	{
-		cd_perror(cmd);
+		if (cd != NULL)
+			free(cd);
 		return (0);
 	}
 	i = chdir(new_dir);

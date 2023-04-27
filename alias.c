@@ -82,9 +82,6 @@ int print_all(cmd_in *cmd)
 	if (cmd->name == NULL)
 		return (1);
 	while (cmd->name[i] != NULL)
-		i++;
-	i--;
-	while (i >= 0)
 	{
 		names = _strdup(cmd->name[i]);
 		names = _strcat(names, "=");
@@ -93,7 +90,7 @@ int print_all(cmd_in *cmd)
 		len = _strlen(names);
 		write(STDOUT_FILENO, names, len);
 		free(names);
-		i--;
+		i++;
 	}
 	return (1);
 }
@@ -147,7 +144,6 @@ int set_alias(cmd_in *cmd, char *str)
 	char *name = NULL, *values = NULL;
 
 	get_pair(&name, &values, str);
-	free(str);
 	if (cmd->name == NULL)
 	{
 		cmd->name = malloc(sizeof(char *) * 2);
