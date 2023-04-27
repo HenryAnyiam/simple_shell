@@ -20,7 +20,7 @@ int exit_shell(cmd_in *cmd)
 				_pexit(cmd);
 				return (0);
 			}
-			cmd->exit = (i % 256);
+			cmd->status = (i % 256);
 		}
 		else
 		{
@@ -28,7 +28,6 @@ int exit_shell(cmd_in *cmd)
 			return (0);
 		}
 	}
-	cmd->status = 0;
 	return (-1);
 }
 

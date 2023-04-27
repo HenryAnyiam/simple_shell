@@ -112,6 +112,7 @@ int handle_ext(cmd_in *cmd)
 	if (alias == NULL)
 	{
 		_perror(cmd);
+		cmd->status = 127;
 		return (0);
 	}
 	free(cmd->cmd);

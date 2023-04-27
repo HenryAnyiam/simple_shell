@@ -112,7 +112,7 @@ int main(int __attribute__((unused)) ac, char **av)
 		return (127);
 	}
 	start_loop(av, &cmd, fd);
-	return (cmd.exit);
+	return (cmd.status);
 }
 
 /**
