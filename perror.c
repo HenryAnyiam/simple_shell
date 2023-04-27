@@ -20,9 +20,7 @@ void _perror(cmd_in *cmd)
 	len = _strlen(error);
 	write(STDERR_FILENO, error, len);
 	free(error);
-	if (cmd->p != 0)
-		free(process);
-	cmd->status = 2;
+	free(process);
 }
 
 /**
@@ -47,8 +45,7 @@ void _pexit(cmd_in *cmd)
 	len = _strlen(error);
 	write(STDERR_FILENO, error, len);
 	free(error);
-	if (cmd->p != 0)
-		free(process);
+	free(process);
 	cmd->status = 2;
 }
 
@@ -72,8 +69,7 @@ void _penv(cmd_in *cmd)
 	len = _strlen(error);
 	write(STDERR_FILENO, error, len);
 	free(error);
-	if (cmd->p != 0)
-		free(process);
+	free(process);
 	cmd->status = 2;
 }
 
@@ -98,8 +94,7 @@ void cd_perror(cmd_in *cmd)
 	len = _strlen(error);
 	write(STDERR_FILENO, error, len);
 	free(error);
-	if (cmd->p != 0)
-		free(process);
+	free(process);
 	cmd->status = 2;
 }
 

@@ -64,7 +64,7 @@ char *_itoa(int i)
 	char *res;
 
 	if (i == 0)
-		return ("0");
+		return (_strdup("0"));
 	while (i > 0)
 	{
 		buf[len] = ((i % 10) + '0');

@@ -9,11 +9,9 @@
 int rep_var(cmd_in *cmd)
 {
 	int i, j, check, mark = 0;
-	char c;
-	char *hold, *temp;
+	char *hold, *temp, c;
 
 	for (i = 0; cmd->args[0][i] != '\0'; i++)
-	{
 		if (cmd->args[0][i] == '=')
 		{
 			hold = _strdup(cmd->args[0]);
@@ -33,7 +31,6 @@ int rep_var(cmd_in *cmd)
 				return (create_var(cmd, mark));
 			}
 		}
-	}
 	check = 0;
 	for (i = 0; cmd->args[i] != NULL; i++)
 		for (j = 0; cmd->args[i][j] != '\0'; j++)
@@ -44,7 +41,10 @@ int rep_var(cmd_in *cmd)
 			if (check == 2)
 				check = 0;
 			if ((c == '$') && (check == 0))
+			{
 				add_variable(cmd, i);
+				break;
+			}
 		}
 	return (0);
 }

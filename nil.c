@@ -6,7 +6,9 @@
   *)
   *Return: 1
   */
-int _nothing(cmd_in __attribute__ ((unused)) *cmd)
+int _nothing(cmd_in *cmd)
 {
+	(void) cmd;
+
 	return (1);
 }

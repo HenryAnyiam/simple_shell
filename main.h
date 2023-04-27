@@ -168,5 +168,6 @@ int remove_comments(cmd_in *cmd);
 void strcut(cmd_in *cmd, int i);
 void handle_sigint(int sig);
 int _nothing(cmd_in *cmd);
+char *cut_var(char *c);
 
 #endif
