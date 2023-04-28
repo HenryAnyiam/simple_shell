@@ -28,7 +28,7 @@ int remove_comments(cmd_in *cmd)
 				cmd->cmd = _strdup("DO_NIL");
 				return (0);
 			}
-			if (cmd->cmd[i] == ' ')
+			if (cmd->cmd[i - 1] == ' ')
 			{
 				strcut(cmd, i);
 				return (0);
