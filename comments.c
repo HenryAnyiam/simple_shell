@@ -23,9 +23,16 @@ int remove_comments(cmd_in *cmd)
 		if ((c == '#') && (check == 0))
 		{
 			if (i == 0)
-				return (-1);
-			strcut(cmd, i);
-			return (0);
+			{
+				free(cmd->cmd);
+				cmd->cmd = _strdup("DO_NIL");
+				return (0);
+			}
+			if (cmd->cmd[i] == ' ')
+			{
+				strcut(cmd, i);
+				return (0);
+			}
 		}
 	}
 	return (0);
