@@ -10,7 +10,7 @@ int handle_sep(cmd_in *cmd)
 {
 	cmd_list *head_c, *end_c;
 	sep_list *head_s, *end_s;
-	int check;
+	int check, i = 0;
 
 	head_c = NULL;
 	head_s = NULL;
@@ -20,6 +20,8 @@ int handle_sep(cmd_in *cmd)
 	end_s = head_s;
 	while (end_c != NULL)
 	{
+		if (i != 0)
+			free_cmd(cmd->args);
 		cmd->args = set_args(end_c->cmd);
 		check_args(cmd);
 		check = handle_cmd(cmd);
@@ -28,9 +30,10 @@ int handle_sep(cmd_in *cmd)
 		next_cmd(cmd, &end_c, &end_s);
 		if (end_c != NULL)
 			end_c = end_c->next;
+		++i;
 	}
-	free_sp(&head_s);
-	free_in(&head_c);
+	free_sp(head_s);
+	free_in(head_c);
 	return (check);
 }
 

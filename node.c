@@ -35,16 +35,16 @@ cmd_list *cmd_node(cmd_list **head, char *str)
   *free_in - free node
   *@head: pointer to first node
   */
-void free_in(cmd_list **head)
+void free_in(cmd_list *head)
 {
 	cmd_list *temp;
 
-	while (*head)
+	while (head)
 	{
-		temp = (*head)->next;
-		free((*head)->cmd);
-		free(*head);
-		*head = temp;
+		temp = head->next;
+		free(head->cmd);
+		free(head);
+		head = temp;
 	}
 }
 
@@ -83,14 +83,14 @@ sep_list *sep_node(sep_list **head, char c)
   *free_sp - free linked list
   *@head: pointer to first node
   */
-void free_sp(sep_list **head)
+void free_sp(sep_list *head)
 {
 	sep_list *temp;
 
-	while (*head)
+	while (head)
 	{
-		temp = (*head)->next;
-		free(*head);
-		*head = temp;
+		temp = head->next;
+		free(head);
+		head = temp;
 	}
 }
